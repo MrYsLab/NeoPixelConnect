@@ -40,22 +40,36 @@
 class NeoPixelConnect
 {
 public:
-    // Constructor
+    /// @brief Constructor
+    /// @param pinNumber: GPIO pin that controls the NeoPixel string.
+    /// @param numberOfPixels: Number of pixels in the string
     NeoPixelConnect(byte pinNumber, byte numberOfPixels);
 
-    // Destructor
+    /// @brief Destructor
     virtual ~NeoPixelConnect(){};
 
-    // set a pixel to a specified color
+    /// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
+    /// displayed immediately.
+    /// @param pixelNumber: set a color for a specific neopixel in the string
+    /// @param r: red value (0-255)
+    /// @param g: green value(0-255)
+    /// @param b: blue value (0-255)
+    /// @param autoShow: If true, show the change immediately.
     void neoPixelSetValue(uint8_t pixel_number, uint8_t r=0, uint8_t g=0, uint8_t b=0, bool autoShow=false);
 
+    /// @brief Set all the pixels to "off".
+    /// @param autoShow: If true, show the change immediately
     // set all pixels to 0
     void neoPixelClear(bool autoShow=true);
 
-    // fill all pixels with a specific color
+    /// @brief Fill all the pixels with same value
+    /// @param r: red value (0-255)
+    /// @param g: green value(0-255)
+    /// @param b: blue value (0-255)
+    /// @param autoShow: If true, show the change immediately.
     void neoPixelFill(uint8_t r=0, uint8_t g=0, uint8_t b=0, bool autoShow=true);
 
-    // show all the pixels
+    /// @brief Display all the pixels in the buffer
     void neoPixelShow(void);
 
 private:

@@ -1,9 +1,20 @@
-# WS2812 NeoPixel Library For the Arduino Nano RP2040 Connect
-This library implements NeoPixel control and is based on the [pico examples for the WS2812.](https://github.com/raspberrypi/pico-examples/tree/master/pio/ws2812)
+/*
+ Copyright (c) 2020-2021 Alan Yorinks All rights reserved.
 
-A "Fireworks" example:
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ Version 3 as published by the Free Software Foundation; either
+ or (at your option) any later version.
+ This library is distributed in the hope that it will be useful,f
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
 
-```asm
+ You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+ along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #include <NeoPixelConnect.h>
 
 // Create an instance of NeoPixelConnect and initialize it
@@ -53,4 +64,4 @@ void loop(){
     delay(100);
 }
 
-```
+

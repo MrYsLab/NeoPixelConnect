@@ -58,7 +58,7 @@ void NeoPixelConnect::neoPixelSetValue(uint8_t pixelNumber, uint8_t r, uint8_t g
 }
 
 /// @brief Set all the pixels to "off".
-/// @param autoShow: If true, show the change immeditelty
+/// @param autoShow: If true, show the change immediately
 void NeoPixelConnect::neoPixelClear(bool autoShow){
     // set all the neopixels in the buffer to all zeroes
     for (int i = 0; i < this->actual_number_of_pixels; i++) {
