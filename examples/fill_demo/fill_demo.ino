@@ -21,7 +21,7 @@
 // to use GPIO pin 4 (D12) as the control pin, for a string
 // of 8 neopixels. Name the instance p
 
-NeoPixelConnect p(4, 8);
+NeoPixelConnect p(4, 8, pio0, 0);
 
 
 void setup(){
