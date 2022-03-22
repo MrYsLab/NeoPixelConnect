@@ -20,9 +20,15 @@
 /// @brief Constructor
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
 /// @param numberOfPixels: Number of pixels in the string
-NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels){
+/// @param pio: pio selected - default = pio0. pio1 may be specified
+/// @param sm: state machine selected. Default = 0
+
+NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels,
+                                 PIO pio=pio0, uint sm=0){
+    this->pixelSm = sm;
+    this->pixelPio = pio;
     uint offset = pio_add_program(pixelPio, &ws2812_program);
-    ws2812_program_init(pixelPio, 0, offset, pinNumber, 800000,
+    ws2812_program_init(this->pixelPio, this->pixelSm, offset, pinNumber, 800000,
                 false);
 
     // save the number of pixels in use

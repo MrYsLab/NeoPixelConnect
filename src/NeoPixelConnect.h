@@ -43,7 +43,9 @@ public:
     /// @brief Constructor
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
-    NeoPixelConnect(byte pinNumber, byte numberOfPixels);
+    /// @param pio: pio selected - default = pio0. pio1 may be specified
+    /// @param sm: state machine selected. Default = 0
+    NeoPixelConnect(byte pinNumber, byte numberOfPixels, PIO pio, uint sm);
 
     /// @brief Destructor
     virtual ~NeoPixelConnect(){};
@@ -80,7 +82,7 @@ private:
     uint pixelOffset;
 
     // pio state machine to use
-    uint pixlSm = 0;
+    uint pixelSm = 0;
 
     // number of pixels in the strip
     int actual_number_of_pixels;
