@@ -47,8 +47,19 @@ public:
     /// @param sm: state machine selected. Default = 0
     NeoPixelConnect(byte pinNumber, byte numberOfPixels, PIO pio, uint sm);
 
+    /// @brief Constructor
+    /// @param pinNumber: GPIO pin that controls the NeoPixel string.
+    /// @param numberOfPixels: Number of pixels in the string
+    /// This construcor sets pio=pio0 and sm to 0
+    NeoPixelConnect(byte pinNumber, byte numberOfPixels);
+
     /// @brief Destructor
     virtual ~NeoPixelConnect(){};
+
+    ///@brief Initialize the class instance after calling constructor
+    /// @param pinNumber: GPIO pin that controls the NeoPixel string.
+    /// @param numberOfPixels: Number of pixels in the string
+    void neoPixelInit(byte pinNumber, byte numberOfPixels);
 
     /// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
     /// displayed immediately.

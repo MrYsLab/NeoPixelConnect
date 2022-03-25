@@ -17,28 +17,44 @@
 
 #include <NeoPixelConnect.h>
 
+
+/// @brief Constructor - pio will be set to pio0 and sm to 0
+/// @param pinNumber: GPIO pin that controls the NeoPixel string.
+/// @param numberOfPixels: Number of pixels in the string
+
+NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels){
+    this->pixelSm = 0;
+    this->pixelPio = pio0;
+    this->neoPixelInit(pinNumber, numberOfPixels);
+}
+
 /// @brief Constructor
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
 /// @param numberOfPixels: Number of pixels in the string
 /// @param pio: pio selected - default = pio0. pio1 may be specified
 /// @param sm: state machine selected. Default = 0
-
 NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels,
                                  PIO pio=pio0, uint sm=0){
     this->pixelSm = sm;
     this->pixelPio = pio;
+    this->neoPixelInit(pinNumber, numberOfPixels);
+
+}
+
+NeoPixelConnect::neoPixelInit(byte pinNumber, byte numberOfPixels){
+
     uint offset = pio_add_program(pixelPio, &ws2812_program);
     ws2812_program_init(this->pixelPio, this->pixelSm, offset, pinNumber, 800000,
-                false);
+                        false);
 
     // save the number of pixels in use
     this->actual_number_of_pixels = numberOfPixels;
 
     // set the pixels to the fill color
     for (int i = 0; i < this->actual_number_of_pixels; i++) {
-        this->pixelBuffer[i][RED] = 0;
-        this->pixelBuffer[i][GREEN] = 0;
-        this->pixelBuffer[i][BLUE] = 0;
+    this->pixelBuffer[i][RED] = 0;
+    this->pixelBuffer[i][GREEN] = 0;
+    this->pixelBuffer[i][BLUE] = 0;
     }
 
     // show the pixels
