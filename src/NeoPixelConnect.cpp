@@ -41,7 +41,7 @@ NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels,
 
 }
 
-NeoPixelConnect::neoPixelInit(byte pinNumber, byte numberOfPixels){
+void NeoPixelConnect::neoPixelInit(byte pinNumber, byte numberOfPixels){
 
     uint offset = pio_add_program(pixelPio, &ws2812_program);
     ws2812_program_init(this->pixelPio, this->pixelSm, offset, pinNumber, 800000,
@@ -52,15 +52,14 @@ NeoPixelConnect::neoPixelInit(byte pinNumber, byte numberOfPixels){
 
     // set the pixels to the fill color
     for (int i = 0; i < this->actual_number_of_pixels; i++) {
-    this->pixelBuffer[i][RED] = 0;
-    this->pixelBuffer[i][GREEN] = 0;
-    this->pixelBuffer[i][BLUE] = 0;
+        this->pixelBuffer[i][RED] = 0;
+        this->pixelBuffer[i][GREEN] = 0;
+        this->pixelBuffer[i][BLUE] = 0;
     }
 
     // show the pixels
     this->neoPixelShow();
     delay(1);
-
 }
 
 /// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
