@@ -34,7 +34,7 @@ NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels){
 /// @param pio: pio selected - default = pio0. pio1 may be specified
 /// @param sm: state machine selected. Default = 0
 NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels,
-                                 PIO pio=pio0, uint sm=0){
+                                 PIO pio, uint sm){
     this->pixelSm = sm;
     this->pixelPio = pio;
     this->neoPixelInit(pinNumber, numberOfPixels);
