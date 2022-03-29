@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2021 Alan Yorinks All rights reserved.
+ Copyright (c) 2020-2022 Alan Yorinks All rights reserved.
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -45,13 +45,13 @@ public:
     /// @param numberOfPixels: Number of pixels in the string
     /// @param pio: pio selected - default = pio0. pio1 may be specified
     /// @param sm: state machine selected. Default = 0
-    NeoPixelConnect(byte pinNumber, byte numberOfPixels, PIO pio, uint sm);
+    NeoPixelConnect(byte pinNumber, byte numberOfPixels);
 
     /// @brief Constructor
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
     /// This construcor sets pio=pio0 and sm to 0
-    NeoPixelConnect(byte pinNumber, byte numberOfPixels);
+    NeoPixelConnect(byte pinNumber, byte numberOfPixels, PIO pio, uint sm);
 
     /// @brief Destructor
     virtual ~NeoPixelConnect(){};
@@ -85,15 +85,20 @@ public:
     /// @brief Display all the pixels in the buffer
     void neoPixelShow(void);
 
+    /// @brief set a pixel's value to reflect pixel_grb
+    /// @param pixel_grb: rgb represented as a 32 bit value
+    void putPixel(uint32_t pixel_grb); //{
+
+
 private:
     // pio - 0 or 1
-    PIO pixelPio = pio0;
+    PIO pixelPio;
 
     // calculated program offset in memory
     uint pixelOffset;
 
     // pio state machine to use
-    uint pixelSm = 0;
+    uint pixelSm;
 
     // number of pixels in the strip
     int actual_number_of_pixels;
@@ -101,19 +106,8 @@ private:
     // a buffer that holds the color for each pixel
     uint8_t pixelBuffer[MAXIMUM_NUM_NEOPIXELS][3];
 
-    // write a color to a pixel
-    static inline void putPixel(uint32_t pixel_grb) {
-        pio_sm_put_blocking(pio0, 0, pixel_grb << 8u);
-    }
-
     // create a 32 bit value combining the 3 colors
-    static inline uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b) {
-        return
-                ((uint32_t) (r) << 8) |
-                ((uint32_t) (g) << 16) |
-                (uint32_t) (b);
-    }
-
+    uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b);
 };
 
 
