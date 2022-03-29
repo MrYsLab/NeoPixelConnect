@@ -1,7 +1,8 @@
 # WS2812 NeoPixel Library For the Arduino Nano RP2040 Connect
 This library implements NeoPixel control and is based on the [pico examples for the WS2812.](https://github.com/raspberrypi/pico-examples/tree/master/pio/ws2812)
 
-It uses pio0 and sm0.
+This library uses 4 PIO instructions and defaults to pio0 and sm 0.
+You may select a different pio or sm in the constructor.
 
 A "Fireworks" example:
 
