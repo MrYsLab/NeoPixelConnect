@@ -21,7 +21,7 @@
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
 /// @param numberOfPixels: Number of pixels in the string
 
-NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels){
+NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels) {
     this->pixelSm = 0;
     this->pixelPio = pio0;
     this->neoPixelInit(pinNumber, numberOfPixels);
@@ -78,7 +78,7 @@ void NeoPixelConnect::neoPixelSetValue(uint16_t pixelNumber, uint8_t r, uint8_t 
 
 /// @brief Set all the pixels to "off".
 /// @param autoShow: If true, show the change immediately
-void NeoPixelConnect::neoPixelClear(bool autoShow){
+void NeoPixelConnect::neoPixelClear(bool autoShow) {
     // set all the neopixels in the buffer to all zeroes
     for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
         this->pixelBuffer[i][RED] = 0;
@@ -109,15 +109,15 @@ void NeoPixelConnect::neoPixelFill(uint8_t r, uint8_t g, uint8_t b, bool autoSho
 }
 
 /// @brief Display all the pixels in the buffer
-void NeoPixelConnect::neoPixelShow(void){
+void NeoPixelConnect::neoPixelShow(void) {
     // show the neopixels in the buffer
     for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
         this->putPixel(
-            urgb_u32(
-                pixelBuffer[i][RED],
-                pixelBuffer[i][GREEN],
-                pixelBuffer[i][BLUE]
-            )
+                urgb_u32(
+                        pixelBuffer[i][RED],
+                        pixelBuffer[i][GREEN],
+                        pixelBuffer[i][BLUE]
+                )
         );
     }
 }
@@ -128,14 +128,14 @@ void NeoPixelConnect::neoPixelShow(void){
 /// @param b: blue value (0-255)
 uint32_t NeoPixelConnect::urgb_u32(uint8_t r, uint8_t g, uint8_t b) {
     return
-            ((uint32_t) (r) << 8) |
-            ((uint32_t) (g) << 16) |
-            (uint32_t) (b);
+            ((uint32_t)(r) << 8) |
+            ((uint32_t)(g) << 16) |
+            (uint32_t)(b);
 }
 
 /// @brief set a pixel's value to reflect pixel_grb
 /// @param pixel_grb: rgb represented as a 32 bit value
 void NeoPixelConnect::putPixel(uint32_t pixel_grb) {
     pio_sm_put_blocking(this->pixelPio, this->pixelSm,
-    pixel_grb << 8u);
+                        pixel_grb << 8u);
 }

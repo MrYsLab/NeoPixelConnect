@@ -52,7 +52,7 @@ public:
     /// @brief Constructor
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
-    /// This construcor sets pio=pio0 and sm to 0
+    /// This constructor sets pio=pio0 and sm to 0
     NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio, uint sm);
 
     /// @brief Destructor

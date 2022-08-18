@@ -34,7 +34,7 @@ void setup(){
 
 void loop(){
 
-    // set all leds to red, then green, and then blue
+    // set all LEDs to red, then green, and then blue
     p.neoPixelFill(255, 0, 0, true);
     delay(1000);
     p.neoPixelClear(true);
