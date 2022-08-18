@@ -29,7 +29,9 @@
 
 #include "ws2812.pio.h"
 
-#define MAXIMUM_NUM_NEOPIXELS 150
+#ifndef MAXIMUM_NUM_NEOPIXELS
+#   define MAXIMUM_NUM_NEOPIXELS 1024
+#endif
 
 // Pixel buffer array offsets
 #define RED 0
@@ -45,13 +47,13 @@ public:
     /// @param numberOfPixels: Number of pixels in the string
     /// @param pio: pio selected - default = pio0. pio1 may be specified
     /// @param sm: state machine selected. Default = 0
-    NeoPixelConnect(byte pinNumber, byte numberOfPixels);
+    NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels);
 
     /// @brief Constructor
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
     /// This construcor sets pio=pio0 and sm to 0
-    NeoPixelConnect(byte pinNumber, byte numberOfPixels, PIO pio, uint sm);
+    NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio, uint sm);
 
     /// @brief Destructor
     virtual ~NeoPixelConnect(){};
@@ -59,7 +61,7 @@ public:
     ///@brief Initialize the class instance after calling constructor
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
-    void neoPixelInit(byte pinNumber, byte numberOfPixels);
+    void neoPixelInit(byte pinNumber, uint16_t numberOfPixels);
 
     /// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
     /// displayed immediately.
@@ -68,7 +70,7 @@ public:
     /// @param g: green value(0-255)
     /// @param b: blue value (0-255)
     /// @param autoShow: If true, show the change immediately.
-    void neoPixelSetValue(uint8_t pixel_number, uint8_t r=0, uint8_t g=0, uint8_t b=0, bool autoShow=false);
+    void neoPixelSetValue(uint16_t pixel_number, uint8_t r=0, uint8_t g=0, uint8_t b=0, bool autoShow=false);
 
     /// @brief Set all the pixels to "off".
     /// @param autoShow: If true, show the change immediately
@@ -101,7 +103,7 @@ private:
     uint pixelSm;
 
     // number of pixels in the strip
-    int actual_number_of_pixels;
+    uint16_t actual_number_of_pixels;
 
     // a buffer that holds the color for each pixel
     uint8_t pixelBuffer[MAXIMUM_NUM_NEOPIXELS][3];

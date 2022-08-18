@@ -21,7 +21,7 @@
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
 /// @param numberOfPixels: Number of pixels in the string
 
-NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels){
+NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels){
     this->pixelSm = 0;
     this->pixelPio = pio0;
     this->neoPixelInit(pinNumber, numberOfPixels);
@@ -32,27 +32,24 @@ NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels){
 /// @param numberOfPixels: Number of pixels in the string
 /// @param pio: pio selected - default = pio0. pio1 may be specified
 /// @param sm: state machine selected. Default = 0
-NeoPixelConnect::NeoPixelConnect(byte pinNumber, byte numberOfPixels,
-                                 PIO pio, uint sm){
+NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio, uint sm) {
     this->pixelSm = sm;
     this->pixelPio = pio;
     this->neoPixelInit(pinNumber, numberOfPixels);
-
 }
 
 /// @brief Continuation of Constructor
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
 /// @param numberOfPixels: Number of pixels in the string
-void NeoPixelConnect::neoPixelInit(byte pinNumber, byte numberOfPixels){
+void NeoPixelConnect::neoPixelInit(byte pinNumber, uint16_t numberOfPixels) {
     uint offset = pio_add_program(this->pixelPio, &ws2812_program);
-    ws2812_program_init(this->pixelPio, this->pixelSm, offset, pinNumber, 800000,
-                        false);
+    ws2812_program_init(this->pixelPio, this->pixelSm, offset, pinNumber, 800000, false);
 
     // save the number of pixels in use
     this->actual_number_of_pixels = numberOfPixels;
 
     // set the pixels to the fill color
-    for (int i = 0; i < this->actual_number_of_pixels; i++) {
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
         this->pixelBuffer[i][RED] = 0;
         this->pixelBuffer[i][GREEN] = 0;
         this->pixelBuffer[i][BLUE] = 0;
@@ -70,7 +67,7 @@ void NeoPixelConnect::neoPixelInit(byte pinNumber, byte numberOfPixels){
 /// @param g: green value(0-255)
 /// @param b: blue value (0-255)
 /// @param autoShow: If true, show the change immediately.
-void NeoPixelConnect::neoPixelSetValue(uint8_t pixelNumber, uint8_t r, uint8_t g, uint8_t b, bool autoShow){
+void NeoPixelConnect::neoPixelSetValue(uint16_t pixelNumber, uint8_t r, uint8_t g, uint8_t b, bool autoShow) {
     this->pixelBuffer[pixelNumber][RED] = r;
     this->pixelBuffer[pixelNumber][GREEN] = g;
     this->pixelBuffer[pixelNumber][BLUE] = b;
@@ -83,7 +80,7 @@ void NeoPixelConnect::neoPixelSetValue(uint8_t pixelNumber, uint8_t r, uint8_t g
 /// @param autoShow: If true, show the change immediately
 void NeoPixelConnect::neoPixelClear(bool autoShow){
     // set all the neopixels in the buffer to all zeroes
-    for (int i = 0; i < this->actual_number_of_pixels; i++) {
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
         this->pixelBuffer[i][RED] = 0;
         this->pixelBuffer[i][GREEN] = 0;
         this->pixelBuffer[i][BLUE] = 0;
@@ -98,10 +95,10 @@ void NeoPixelConnect::neoPixelClear(bool autoShow){
 /// @param g: green value(0-255)
 /// @param b: blue value (0-255)
 /// @param autoShow: If true, show the change immediately.
-void NeoPixelConnect::neoPixelFill(uint8_t r, uint8_t g, uint8_t b, bool autoShow){
+void NeoPixelConnect::neoPixelFill(uint8_t r, uint8_t g, uint8_t b, bool autoShow) {
     // fill all the neopixels in the buffer with the
     // specified rgb values.
-    for (int i = 0; i < this->actual_number_of_pixels; i++) {
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
         this->pixelBuffer[i][RED] = r;
         this->pixelBuffer[i][GREEN] = g;
         this->pixelBuffer[i][BLUE] = b;
@@ -114,10 +111,14 @@ void NeoPixelConnect::neoPixelFill(uint8_t r, uint8_t g, uint8_t b, bool autoSho
 /// @brief Display all the pixels in the buffer
 void NeoPixelConnect::neoPixelShow(void){
     // show the neopixels in the buffer
-    for (int i = 0; i < this->actual_number_of_pixels; i++) {
-        this->putPixel(urgb_u32(pixelBuffer[i][RED],
-                           pixelBuffer[i][GREEN],
-                           pixelBuffer[i][BLUE]));
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
+        this->putPixel(
+            urgb_u32(
+                pixelBuffer[i][RED],
+                pixelBuffer[i][GREEN],
+                pixelBuffer[i][BLUE]
+            )
+        );
     }
 }
 
