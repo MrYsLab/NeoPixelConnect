@@ -16,12 +16,13 @@
  */
 
 #include <NeoPixelConnect.h>
+#define MAXIMUM_NUM_NEOPIXELS 8
 
 // Create an instance of NeoPixelConnect and initialize it
 // to use GPIO pin 4 (D12) as the control pin, for a string
 // of 8 neopixels. Name the instance p
 
-NeoPixelConnect p(4, 8, pio0, 0);
+NeoPixelConnect p(4, MAXIMUM_NUM_NEOPIXELS, pio0, 0);
 
 
 void setup(){

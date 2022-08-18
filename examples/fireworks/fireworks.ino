@@ -16,11 +16,12 @@
  */
 
 #include <NeoPixelConnect.h>
+#define MAXIMUM_NUM_NEOPIXELS 8
 
 // Create an instance of NeoPixelConnect and initialize it
 // to use GPIO pin 4 (D12) as the control pin, for a string
 // of 8 neopixels. Name the instance p
-NeoPixelConnect p(4, 8, pio0, 0);
+NeoPixelConnect p(4, MAXIMUM_NUM_NEOPIXELS, pio0, 0);
 
 // this array will hold a pixel number and the rgb values for the
 // randomly generated pixel values
@@ -28,7 +29,7 @@ uint8_t random_pixel_setting[4];
 
 // select a random pixel number in the string
 uint8_t get_pixel_number(){
-    return((uint8_t)random(0,7));
+    return((uint16_t)random(0,MAXIMUM_NUM_NEOPIXELS - 1));
 }
 
 // select a random intensity
