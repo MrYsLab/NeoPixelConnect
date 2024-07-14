@@ -15,8 +15,9 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <NeoPixelConnect.h>
 #define MAXIMUM_NUM_NEOPIXELS 8
+
+#include <NeoPixelConnect.h>
 
 // Create an instance of NeoPixelConnect and initialize it
 // to use GPIO pin 4 (D12) as the control pin, for a string
