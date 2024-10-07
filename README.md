@@ -57,3 +57,10 @@ void loop(){
 }
 
 ```
+
+## A Programming Note:
+
+Neopixel timing is critical. If your sketch is crafted in a way that interferes with the timing, 
+resulting in an unexpected visual result,  you may wish to call neoPixelSetValue using the default value for the autoshow parameter set to false and then calling neoPixelShow after all Neopixel values have been set.
+
+Placing a small delay at the end of the sketch loop may also solve the issue.
