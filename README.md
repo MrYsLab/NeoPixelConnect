@@ -58,6 +58,7 @@ void loop(){
 
 ```
 
+
 ## A Programming Note:
 
 Neopixel timing is critical. If your sketch is crafted in a way that interferes with the timing, 
