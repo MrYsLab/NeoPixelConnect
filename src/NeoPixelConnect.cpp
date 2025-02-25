@@ -139,3 +139,10 @@ void NeoPixelConnect::putPixel(uint32_t pixel_grb) {
     pio_sm_put_blocking(this->pixelPio, this->pixelSm,
                         pixel_grb << 8u);
 }
+
+/// @brief recalculate the clock to match a new CPU clock
+void NeoPixelConnect::recalculateClock(){
+    int cycles_per_bit = ws2812_T1 + ws2812_T2 + ws2812_T3;
+    float div = clock_get_hz(clk_sys) / (800000.0f * cycles_per_bit);
+    pio_sm_set_clkdiv(this->pixelPio, this->pixelSm, div);
+}

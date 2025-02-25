@@ -91,6 +91,9 @@ public:
     /// @param pixel_grb: rgb represented as a 32 bit value
     void putPixel(uint32_t pixel_grb); //{
 
+    /// @brief recalculate the clock to match a new CPU clock
+    void recalculateClock();
+
 
 private:
     // pio - 0 or 1
