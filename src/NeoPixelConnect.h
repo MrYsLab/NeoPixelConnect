@@ -62,7 +62,7 @@ public:
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
     ///  @param PIO: select PIO 0 or 1
-    NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio);
+    NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio);
 
     /// @brief Destructor
     virtual ~NeoPixelConnect(){};
