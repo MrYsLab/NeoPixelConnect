@@ -64,8 +64,14 @@ public:
     ///  @param PIO: select PIO 0 or 1
     NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio);
 
-    /// @brief Destructor
-    virtual ~NeoPixelConnect(){};
+    /// @brief destructor
+    /// If sm was claimed, release it.
+
+    ~NeoPixelConnect(){
+        if (this->sm_claimed){
+                pio_sm_unclaim (this->pixelPio, this->pixelSm);
+         }
+     };
 
     ///@brief Initialize the class instance after calling constructor
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.

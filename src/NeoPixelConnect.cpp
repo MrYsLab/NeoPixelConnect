@@ -34,6 +34,7 @@ NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels) {
 /// @param pio: pio selected for use - 0 or 1
 /// @param sm: state machine selected for use - 0, 1, 2 , 3
 NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio, uint sm) {
+    this->sm_claimed = false;
     this->pixelSm = sm;
     this->pixelPio = pio;
     this->neoPixelInit(pinNumber, numberOfPixels);
@@ -51,15 +52,6 @@ NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pi
     this->pixelSm = pio_claim_unused_sm(pio, true);
     this->neoPixelInit(pinNumber, numberOfPixels);
 }
-
-/// @brief Destructor
-/// Release sm if previously claimed
-virtual ~NeoPixelConnect(){
-    if (this->sm_claimed){
-        pio_sm_unclaim (this->pixelPio = pio, this->pixelSm);
-    }
-}
-
 
 /// @brief Continuation of Constructor
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
