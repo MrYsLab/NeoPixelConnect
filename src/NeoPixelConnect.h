@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Alan Yorinks All rights reserved.
+ Copyright (c) 2020-2025 Alan Yorinks All rights reserved.
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -43,17 +43,26 @@ class NeoPixelConnect
 {
 public:
     /// @brief Constructor
+    /// This constructor selects PIO 0 and SM 0 for use.
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
-    /// @param pio: pio selected - default = pio0. pio1 may be specified
-    /// @param sm: state machine selected. Default = 0
     NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels);
 
     /// @brief Constructor
+    /// This constructor allows the user to select both PIO and SM
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
-    /// This constructor sets pio=pio0 and sm to 0
+    /// @param PIO: select PIO 0 or 1
+    /// @param sm: select sm 0, 1, 2 or 3
     NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio, uint sm);
+
+    /// @brief Constructor
+    /// This constructor allows the user to select a PIO and will attempt to claim
+    /// an unused SM.
+    /// @param pinNumber: GPIO pin that controls the NeoPixel string.
+    /// @param numberOfPixels: Number of pixels in the string
+    ///  @param PIO: select PIO 0 or 1
+    NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio)
 
     /// @brief Destructor
     virtual ~NeoPixelConnect(){};
@@ -98,6 +107,9 @@ public:
 private:
     // pio - 0 or 1
     PIO pixelPio;
+
+    // sm claimed
+    bool sm_claimed = false;
 
     // calculated program offset in memory
     uint pixelOffset;

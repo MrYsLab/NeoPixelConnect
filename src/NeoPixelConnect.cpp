@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020-2024 Alan Yorinks All rights reserved.
+ Copyright (c) 2020-2025 Alan Yorinks All rights reserved.
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -22,6 +22,7 @@
 /// @param numberOfPixels: Number of pixels in the string
 
 NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels) {
+    this->sm_claimed = false;
     this->pixelSm = 0;
     this->pixelPio = pio0;
     this->neoPixelInit(pinNumber, numberOfPixels);
@@ -30,13 +31,35 @@ NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels) {
 /// @brief Constructor
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
 /// @param numberOfPixels: Number of pixels in the string
-/// @param pio: pio selected - default = pio0. pio1 may be specified
-/// @param sm: state machine selected. Default = 0
+/// @param pio: pio selected for use - 0 or 1
+/// @param sm: state machine selected for use - 0, 1, 2 , 3
 NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio, uint sm) {
     this->pixelSm = sm;
     this->pixelPio = pio;
     this->neoPixelInit(pinNumber, numberOfPixels);
 }
+
+/// @brief Constructor
+/// This constructor allows the user to select a PIO and will attempt to claim
+/// an unused SM.
+/// @param pinNumber: GPIO pin that controls the NeoPixel string.
+/// @param numberOfPixels: Number of pixels in the string
+/// /// @param PIO: select PIO 0 or 1
+NeoPixelConnect::NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio){
+    this->sm_claimed = true;
+    this->pixelPio = pio;
+    this->pixelSm = pio_claim_unused_sm(pio, true);
+    this->neoPixelInit(pinNumber, numberOfPixels);
+}
+
+/// @brief Destructor
+/// Release sm if previously claimed
+virtual ~NeoPixelConnect(){
+    if (this->sm_claimed){
+        pio_sm_unclaim (this->pixelPio = pio, this->pixelSm);
+    }
+}
+
 
 /// @brief Continuation of Constructor
 /// @param pinNumber: GPIO pin that controls the NeoPixel string.
