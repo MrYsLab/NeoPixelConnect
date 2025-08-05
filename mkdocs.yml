@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: NeoPixelConnect User's Guide
+repo_url: https://github.com/MrYsLab/NeoPixelConnect
+copyright: > # should remain a link to the original theme
+  Copyright &copy; 2025 Alan Yorinks &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Last 
+  Modified: August 5, 2025
+
+nav:
+    - " " : index.md
+    - Using The Library: use_cases.md
+    - Questions Or Issues?: about.md
+    - License: license.md
+# theme: windmill
+
+theme:
+  name: 'material'
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.footer
+
+plugins:
+  - search
+  - open-in-new-tab
+
+
+extra:
+  social:
+    - icon: fontawesome/solid/envelope
+      link: mailto:MisterYsLab@gmail.com
+    - icon: fontawesome/brands/github
+      link: https://github.com/MrYsLab
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/mryslab.bsky.social
+    - icon: fontawesome/solid/cloud
+      link: https://mryslab.github.io/bits-n-bots/
