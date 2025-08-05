@@ -2,6 +2,8 @@
 This library implements NeoPixel control and is based on the 
 [pico examples for the WS2812.](https://github.com/raspberrypi/pico-examples/tree/master/pio/ws2812)
 
+A [User's Guide](https://mryslab.github.io/NeoPixelConnect/) is available.
+
 This library uses 4 PIO instructions and defaults to pio0 and sm 0.
 You may select a different pio or sm in the constructor.
 
