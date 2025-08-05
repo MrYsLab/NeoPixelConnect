@@ -30,7 +30,7 @@
 #include "ws2812.pio.h"
 
 #ifndef MAXIMUM_NUM_NEOPIXELS
-#   define MAXIMUM_NUM_NEOPIXELS 1024
+#define MAXIMUM_NUM_NEOPIXELS 1024
 #endif
 
 // Pixel buffer array offsets
@@ -61,7 +61,7 @@ public:
     /// an unused SM.
     /// @param pinNumber: GPIO pin that controls the NeoPixel string.
     /// @param numberOfPixels: Number of pixels in the string
-    ///  @param PIO: select PIO 0 or 1
+    /// @param PIO: select PIO 0 or 1
     NeoPixelConnect(byte pinNumber, uint16_t numberOfPixels, PIO pio);
 
     /// @brief destructor
