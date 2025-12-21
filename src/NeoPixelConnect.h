@@ -37,6 +37,7 @@
 #define RED 0
 #define GREEN 1
 #define BLUE 2
+#define WHITE 3
 
 
 class NeoPixelConnect
@@ -78,6 +79,11 @@ public:
     /// @param numberOfPixels: Number of pixels in the string
     void neoPixelInit(byte pinNumber, uint16_t numberOfPixels);
 
+    ///@brief Initialize the class instance after calling constructor
+    /// @param pinNumber: GPIO pin that controls the NeoPixel string.
+    /// @param numberOfPixels: Number of pixels in the string
+    void neoPixelInitRGBW(byte pinNumber, uint16_t numberOfPixels);
+
     /// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
     /// displayed immediately.
     /// @param pixelNumber: set a color for a specific neopixel in the string
@@ -87,10 +93,26 @@ public:
     /// @param autoShow: If true, show the change immediately.
     void neoPixelSetValue(uint16_t pixel_number, uint8_t r=0, uint8_t g=0, uint8_t b=0, bool autoShow=false);
 
+    /// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
+    /// displayed immediately.
+    /// @param pixelNumber: set a color for a specific neopixel in the string
+    /// @param r: red value (0-255)
+    /// @param g: green value(0-255)
+    /// @param b: blue value (0-255)
+    /// @param w: white value (0-255)
+    /// @param autoShow: If true, show the change immediately.
+        void neoPixelSetValueRGBW(uint16_t pixel_number, uint8_t r=0, uint8_t g=0, uint8_t
+         b=0, uint8_t w=0, bool autoShow=false);
+
     /// @brief Set all the pixels to "off".
     /// @param autoShow: If true, show the change immediately
     // set all pixels to 0
     void neoPixelClear(bool autoShow=true);
+
+    /// @brief Set all the pixels to "off".
+    /// @param autoShow: If true, show the change immediately
+    // set all pixels to 0
+    void neoPixelClearRGBW(bool autoShow=true);
 
     /// @brief Fill all the pixels with same value
     /// @param r: red value (0-255)
@@ -99,12 +121,28 @@ public:
     /// @param autoShow: If true, show the change immediately.
     void neoPixelFill(uint8_t r=0, uint8_t g=0, uint8_t b=0, bool autoShow=true);
 
+    /// @brief Fill all the pixels with same value
+    /// @param r: red value (0-255)
+    /// @param g: green value(0-255)
+    /// @param b: blue value (0-255)
+    /// @param autoShow: If true, show the change immediately.
+    void neoPixelFillRGBW(uint8_t r=0, uint8_t g=0, uint8_t b=0, uint8_t w=0,
+                          bool autoShow=true);
+
     /// @brief Display all the pixels in the buffer
     void neoPixelShow(void);
 
+    /// @brief Display all the pixels in the buffer
+    void neoPixelShowRGBW(void);
+
     /// @brief set a pixel's value to reflect pixel_grb
     /// @param pixel_grb: rgb represented as a 32 bit value
-    void putPixel(uint32_t pixel_grb); //{
+    void putPixel(uint32_t pixel_grb);
+
+
+    /// @brief set a pixel's value to reflect pixel_grb
+    /// @param pixel_grb: rgb represented as a 32 bit value
+    void putPixelRGBW(uint32_t pixel_grwb);
 
     /// @brief recalculate the clock to match a new CPU clock
     void recalculateClock();
@@ -131,6 +169,8 @@ private:
 
     // create a 32 bit value combining the 3 colors
     uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b);
+
+    uint32_t urgbw_u32(uint8_t r, uint8_t g, uint8_t b, uint8_t w);
 };
 
 

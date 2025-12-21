@@ -75,6 +75,29 @@ void NeoPixelConnect::neoPixelInit(byte pinNumber, uint16_t numberOfPixels) {
     delay(1);
 }
 
+/// @brief Continuation of Constructor
+/// @param pinNumber: GPIO pin that controls the NeoPixel string.
+/// @param numberOfPixels: Number of pixels in the string
+void NeoPixelConnect::neoPixelInitRGBW(byte pinNumber, uint16_t numberOfPixels) {
+    uint offset = pio_add_program(this->pixelPio, &ws2812_program);
+    ws2812_program_init(this->pixelPio, this->pixelSm, offset, pinNumber, 800000, true);
+
+    // save the number of pixels in use
+    this->actual_number_of_pixels = numberOfPixels;
+
+    // set the pixels to the fill color
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
+        this->pixelBuffer[i][RED] = 0;
+        this->pixelBuffer[i][GREEN] = 0;
+        this->pixelBuffer[i][BLUE] = 0;
+        this->pixelBuffer[i][WHITE] = 0;
+    }
+
+    // show the pixels
+    this->neoPixelShow();
+    delay(1);
+}
+
 /// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
 /// displayed immediately.
 /// @param pixelNumber: set a color for a specific neopixel in the string
@@ -85,6 +108,25 @@ void NeoPixelConnect::neoPixelInit(byte pinNumber, uint16_t numberOfPixels) {
 void NeoPixelConnect::neoPixelSetValue(uint16_t pixelNumber, uint8_t r, uint8_t g, uint8_t b, bool autoShow) {
     this->pixelBuffer[pixelNumber][RED] = r;
     this->pixelBuffer[pixelNumber][GREEN] = g;
+    this->pixelBuffer[pixelNumber][BLUE] = b;
+    if (autoShow) {
+        this->neoPixelShow();
+    }
+}
+
+/// @brief Set a NeoPixel to a given color. By setting autoShow to true, change is
+/// displayed immediately.
+/// @param pixelNumber: set a color for a specific neopixel in the string
+/// @param r: red value (0-255)
+/// @param g: green value(0-255)
+/// @param b: blue value (0-255)
+/// @param w: white value (0-255)
+/// @param autoShow: If true, show the change immediately.
+void NeoPixelConnect::neoPixelSetValueRGBW(uint16_t pixelNumber, uint8_t r, uint8_t g,
+                                           uint8_t b, uint8_t w, bool autoShow) {
+    this->pixelBuffer[pixelNumber][RED] = r;
+    this->pixelBuffer[pixelNumber][GREEN] = g;
+    this->pixelBuffer[pixelNumber][WHITE] = w;
     this->pixelBuffer[pixelNumber][BLUE] = b;
     if (autoShow) {
         this->neoPixelShow();
@@ -105,6 +147,21 @@ void NeoPixelConnect::neoPixelClear(bool autoShow) {
     }
 }
 
+
+/// @brief Set all the pixels to "off".
+/// @param autoShow: If true, show the change immediately
+void NeoPixelConnect::neoPixelClearRGBW(bool autoShow) {
+    // set all the neopixels in the buffer to all zeroes
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
+        this->pixelBuffer[i][RED] = 0;
+        this->pixelBuffer[i][GREEN] = 0;
+        this->pixelBuffer[i][WHITE] = 0;
+        this->pixelBuffer[i][BLUE] = 0;
+    }
+    if (autoShow) {
+        this->neoPixelShow();
+    }
+}
 /// @brief Fill all the pixels with same value
 /// @param r: red value (0-255)
 /// @param g: green value(0-255)
@@ -116,6 +173,27 @@ void NeoPixelConnect::neoPixelFill(uint8_t r, uint8_t g, uint8_t b, bool autoSho
     for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
         this->pixelBuffer[i][RED] = r;
         this->pixelBuffer[i][GREEN] = g;
+        this->pixelBuffer[i][BLUE] = b;
+    }
+    if (autoShow) {
+        this->neoPixelShow();
+    }
+}
+
+/// @brief Fill all the pixels with same value
+/// @param r: red value (0-255)
+/// @param g: green value(0-255)
+/// @param b: blue value (0-255)
+/// @param autoShow: If true, show the change immediately.
+void NeoPixelConnect::neoPixelFillRGBW(uint8_t r, uint8_t g,
+                                       uint8_t b,  uint8_t w, bool autoShow)
+{
+    // fill all the neopixels in the buffer with the
+    // specified rgb values.
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
+        this->pixelBuffer[i][RED] = r;
+        this->pixelBuffer[i][GREEN] = g;
+        this->pixelBuffer[i][WHITE] = g;
         this->pixelBuffer[i][BLUE] = b;
     }
     if (autoShow) {
@@ -137,6 +215,21 @@ void NeoPixelConnect::neoPixelShow(void) {
     }
 }
 
+// @brief Display all the pixels in the buffer
+void NeoPixelConnect::neoPixelShowRGBW(void) {
+    // show the neopixels in the buffer
+    for (uint16_t i = 0; i < this->actual_number_of_pixels; i++) {
+        this->putPixelRGBW(
+                urgbw_u32(
+                        pixelBuffer[i][RED],
+                        pixelBuffer[i][GREEN],
+                        pixelBuffer[i][WHITE],
+                        pixelBuffer[i][BLUE]
+                )
+        );
+    }
+}
+
 /// @brief convert rgb values into a single uint32_t
 /// @param r: red value (0-255)
 /// @param g: green value(0-255)
@@ -148,11 +241,26 @@ uint32_t NeoPixelConnect::urgb_u32(uint8_t r, uint8_t g, uint8_t b) {
             (uint32_t)(b);
 }
 
+uint32_t NeoPixelConnect::urgbw_u32(uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
+    return
+            ((uint32_t) (r) << 8) |
+            ((uint32_t) (g) << 16) |
+            ((uint32_t) (w) << 24) |
+            (uint32_t) (b);
+}
+
 /// @brief set a pixel's value to reflect pixel_grb
 /// @param pixel_grb: rgb represented as a 32 bit value
 void NeoPixelConnect::putPixel(uint32_t pixel_grb) {
     pio_sm_put_blocking(this->pixelPio, this->pixelSm,
                         pixel_grb << 8u);
+}
+
+/// @brief set a pixel's value to reflect pixel_grb
+/// @param pixel_grb: rgbw represented as a 32 bit value
+void NeoPixelConnect::putPixelRGBW(uint32_t pixel_grbw) {
+    pio_sm_put_blocking(this->pixelPio, this->pixelSm,
+                        pixel_grbw << 8u);
 }
 
 /// @brief recalculate the clock to match a new CPU clock
